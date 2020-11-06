@@ -7,7 +7,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    billAmount: ''
+    billAmount: null
   }
 
   setBillAmount = (billAmount) => {

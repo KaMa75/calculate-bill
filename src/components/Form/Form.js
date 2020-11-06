@@ -27,7 +27,7 @@ class Form extends Component {
         if (amount) {
             const tip = this.state.tip * amount / 100;
             const netBill = amount + tip;
-            this.props.setBillAmount(Math.round(netBill + (netBill * tax / 100)).toFixed(2));
+            this.props.setBillAmount((netBill + (netBill * tax / 100)).toFixed(2));
         }
     }
 
