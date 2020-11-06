@@ -1,29 +1,27 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 
 import Sum from './components/Sum/Sum';
 import Form from './components/Form/Form';
 
 import './App.css';
 
-class App extends Component {
-  state = {
-    billAmount: ''
-  }
+function App () {
+  const [billAmount, setBillAmount] = useState(null);
 
-  setBillAmount = (billAmount) => {
-    this.setState({
-      billAmount
-    });
-  }
+  return (
+    <div className="form-container">
+      <h3>Formularz funkcyjny</h3>
+      {billAmount
+        ? <Sum
+            sum={billAmount}
+            setBillAmount={setBillAmount}
+        />
+        : <Form
+            setBillAmount={setBillAmount}
+        />}
+    </div>
+  );
 
-  render() {
-    return (
-      <div className="form-container">
-        <h3>Formularz klasowy</h3>
-        {this.state.billAmount ? <Sum sum={this.state.billAmount} setBillAmount={this.setBillAmount} /> : <Form setBillAmount={this.setBillAmount} />}
-      </div>
-    );
-  }
 }
 
 export default App;

@@ -1,71 +1,61 @@
-import React, {Component} from 'react';
+import React from 'react';
+
+import useFormField from '../../utils/useFormField';
 
 const tipsSize = [5, 10, 15, 20];
 const tax = 8;
 
-class Form extends Component {
+function Form({setBillAmount}) {
 
-    state = {
-        amount: null,
-        tip: 5
-    }
+    const [amount, handleAmountChange] = useFormField(null);
+    const [tip, handleTipChange] = useFormField(5);
 
-    handleOnSubmit(e) {
+    const handleOnSubmit = (e) => {
         e.preventDefault();
     }
 
-    handleOnChange = (e) => {
-        const key = e.target.name;
-        const value = parseFloat(e.target.value);
-        this.setState({
-            [key]: value
-        });
-    }
-
-    handleOnClick = () => {
-        const amount = this.state.amount;
+    const handleOnClick = () => {
         if (amount) {
-            const tip = this.state.tip * amount / 100;
-            const netBill = amount + tip;
-            this.props.setBillAmount(Math.round(netBill + (netBill * tax / 100)).toFixed(2));
+            const tipValue = tip * amount / 100;
+            const netBill = amount + tipValue;
+            setBillAmount((netBill + (netBill * tax / 100)).toFixed(2));
         }
     }
 
-    render() {
-        const options = tipsSize.map((element, index) => {
-            return (
-                <option
-                    key={`${element}_${index}`}
-                    value={element}
-                >
-                    {element}%
-                </option>
-            )
-        });
+    const options = tipsSize.map((element, index) => {
         return (
-            <form onSubmit={this.handleOnSubmit}>
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder="Kwota netto do zapłaty"
-                    onChange={this.handleOnChange}
-                />
-                <select
-                    value={this.state.tip}
-                    name="tip"
-                    onChange={this.handleOnChange}
-                >
-                    {options}
-                </select>
-                <button
-                    type="submit"
-                    onClick={this.handleOnClick}
-                >
-                    Przelicz
-                </button>
-            </form>
-        );
-    }
+            <option
+                key={`${element}_${index}`}
+                value={element}
+            >
+                {element}%
+            </option>
+        )
+    });
+
+    return (
+        <form onSubmit={handleOnSubmit}>
+            <input
+                type="number"
+                name="amount"
+                placeholder="Kwota netto do zapłaty"
+                onChange={handleAmountChange}
+            />
+            <select
+                value={tip}
+                name="tip"
+                onChange={handleTipChange}
+            >
+                {options}
+            </select>
+            <button
+                type="submit"
+                onClick={handleOnClick}
+            >
+                Przelicz
+            </button>
+        </form>
+    );
 
 }
 
